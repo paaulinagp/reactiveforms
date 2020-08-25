@@ -30,7 +30,25 @@ export class ReactiveComponent implements OnInit {
     });
   }
 
+  get nameIsNotValid(): boolean {
+    return this.form.get('name').invalid && this.form.get('name').touched;
+  }
+  get lastNameIsNotValid(): boolean {
+    return (
+      this.form.get('lastName').invalid && this.form.get('lastName').touched
+    );
+  }
+  get emailIsNotValid(): boolean {
+    return this.form.get('email').invalid && this.form.get('email').touched;
+  }
+
   onSubmit(): void {
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+      return;
+    }
     console.log(this.form);
   }
 }
