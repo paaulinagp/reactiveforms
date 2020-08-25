@@ -9,12 +9,14 @@
       <div class="col-8">
 
         <input class="form-control"
-              type="text"
-              name="name"
-              [(ngModel)]="user.name"
-              required
-              minlength="5"
-              placeholder="Nombre">
+            #name="ngModel"
+            [class.is-invalid]="name.invalid && name.touched"
+            type="text"
+            name="name"
+            [(ngModel)]="user.name"
+            required
+            minlength="5"
+            placeholder="Nombre">
       </div>
     </div>
 
@@ -23,10 +25,14 @@
       <div class="col-8">
 
         <input class="form-control"
-               type="text"
-               name="lastName"
-               [(ngModel)]="user.lastName"
-               placeholder="Apellido">
+              #lastName="ngModel"
+              [class.is-invalid]="lastName.invalid && lastName.touched"
+              type="text"
+              name="lastName"
+              [(ngModel)]="user.lastName"
+              required
+              minlength="5"
+              placeholder="Apellido">
       </div>
     </div>
 
@@ -37,10 +43,14 @@
     <div class="col-8">
 
       <input class="form-control"
-             type="email"
-             name="email"
-             [(ngModel)]="user.email"
-             placeholder="Correo electrónico">
+            #email="ngModel"
+            [class.is-invalid]="email.invalid && email.touched"
+            type="email"
+            name="email"
+            [(ngModel)]="user.email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            required
+            placeholder="Correo electrónico">
     </div>
   </div>
 
