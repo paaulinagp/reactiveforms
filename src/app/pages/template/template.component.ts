@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CountryService } from '../../services/country.service';
 
 @Component({
   selector: 'app-template',
@@ -8,13 +9,24 @@ import { NgForm } from '@angular/forms';
 })
 export class TemplateComponent implements OnInit {
   user: any = {
-    name: '',
-    lastName: '',
-    email: '',
+    name: 'Paulina',
+    lastName: 'Guerrero',
+    email: 'paulina@mail.com',
+    country: 'MEX',
   };
-  constructor() {}
+  countries: any[] = [];
 
-  ngOnInit(): void {}
+  constructor(private countryService: CountryService) {}
+
+  ngOnInit(): void {
+    this.countryService.getCountries().subscribe((countries) => {
+      this.countries = countries;
+      this.countries.unshift({
+        name: 'Seleccionar país',
+        code: '',
+      });
+    });
+  }
 
   onSubmit(form: NgForm): void {
     if (form.invalid) {
