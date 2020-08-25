@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CountryService } from 'src/app/services/country.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive',
@@ -12,7 +12,7 @@ export class ReactiveComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private countryService: CountryService) {
     this.createForm();
-    this.uploadFormData();
+    // this.uploadFormData();
   }
 
   ngOnInit(): void {}
@@ -32,6 +32,7 @@ export class ReactiveComponent implements OnInit {
         street: ['', Validators.required],
         city: ['', Validators.required],
       }),
+      hobbies: this.fb.array([[], [], [], [], []]),
     });
   }
 
@@ -57,6 +58,10 @@ export class ReactiveComponent implements OnInit {
       this.form.get('address.city').invalid &&
       this.form.get('address.city').touched
     );
+  }
+
+  get hobbies(): FormArray {
+    return this.form.get('hobbies') as FormArray;
   }
 
   uploadFormData(): void {
