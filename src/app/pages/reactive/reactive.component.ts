@@ -73,6 +73,7 @@ export class ReactiveComponent implements OnInit {
         street: 'Calle',
         city: 'CDMX',
       },
+      hobbies: [],
     });
   }
 
@@ -93,6 +94,20 @@ export class ReactiveComponent implements OnInit {
     console.log(this.form);
     this.form.reset({
       name: 'Paulina',
+      lastName: 'Guerrero',
+      email: 'pau@mail.com',
+      address: {
+        street: 'Calle',
+        city: 'CDMX',
+      },
     });
+  }
+
+  addHobby(): void {
+    this.hobbies.push(this.fb.control(''));
+  }
+
+  deleteHobby(id: number): void {
+    this.hobbies.removeAt(id);
   }
 }
