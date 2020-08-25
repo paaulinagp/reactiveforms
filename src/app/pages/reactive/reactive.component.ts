@@ -12,16 +12,17 @@ export class ReactiveComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private countryService: CountryService) {
     this.createForm();
+    this.uploadFormData();
   }
 
   ngOnInit(): void {}
 
   createForm(): void {
     this.form = this.fb.group({
-      name: ['Pau', [Validators.required, Validators.minLength(5)]],
-      lastName: ['Guerrero', [Validators.required, Validators.minLength(5)]],
+      name: ['', [Validators.required, Validators.minLength(5)]],
+      lastName: ['', [Validators.required, Validators.minLength(5)]],
       email: [
-        'pau@mail.com',
+        '',
         [
           Validators.required,
           Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
@@ -58,6 +59,18 @@ export class ReactiveComponent implements OnInit {
     );
   }
 
+  uploadFormData(): void {
+    this.form.setValue({
+      name: 'Paulina',
+      lastName: 'Guerrero',
+      email: 'pau@mail.com',
+      address: {
+        street: 'Calle',
+        city: 'CDMX',
+      },
+    });
+  }
+
   onSubmit(): void {
     if (this.form.invalid) {
       return Object.values(this.form.controls).forEach((control) => {
@@ -69,8 +82,12 @@ export class ReactiveComponent implements OnInit {
           control.markAsTouched();
         }
       });
-      return;
     }
+
+    // Se manda formulario y se debe resetar
     console.log(this.form);
+    this.form.reset({
+      name: 'Paulina',
+    });
   }
 }
