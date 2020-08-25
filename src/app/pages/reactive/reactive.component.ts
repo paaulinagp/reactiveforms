@@ -27,6 +27,10 @@ export class ReactiveComponent implements OnInit {
           Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
         ],
       ],
+      address: this.fb.group({
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+      }),
     });
   }
 
@@ -41,11 +45,29 @@ export class ReactiveComponent implements OnInit {
   get emailIsNotValid(): boolean {
     return this.form.get('email').invalid && this.form.get('email').touched;
   }
+  get streetIsNotValid(): boolean {
+    return (
+      this.form.get('address.street').invalid &&
+      this.form.get('address.street').touched
+    );
+  }
+  get cityIsNotValid(): boolean {
+    return (
+      this.form.get('address.city').invalid &&
+      this.form.get('address.city').touched
+    );
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {
-      Object.values(this.form.controls).forEach((control) => {
-        control.markAsTouched();
+      return Object.values(this.form.controls).forEach((control) => {
+        if (control instanceof FormGroup) {
+          Object.values(control.controls).forEach((control) => {
+            control.markAsTouched();
+          });
+        } else {
+          control.markAsTouched();
+        }
       });
       return;
     }
