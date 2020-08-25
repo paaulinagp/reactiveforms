@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CountryService } from 'src/app/services/country.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ValidatorsService } from '../../services/validators.service';
 
@@ -17,6 +16,7 @@ export class ReactiveComponent implements OnInit {
   ) {
     this.createForm();
     this.uploadFormData();
+    this.createListeners();
   }
 
   ngOnInit(): void {}
@@ -47,7 +47,7 @@ export class ReactiveComponent implements OnInit {
           street: ['', Validators.required],
           city: ['', Validators.required],
         }),
-        hobbies: this.fb.array([[], [], [], [], []]),
+        hobbies: this.fb.array([[]]),
       },
       {
         validators: this.validatorsService.validPasswords(
@@ -56,6 +56,14 @@ export class ReactiveComponent implements OnInit {
         ),
       }
     );
+  }
+
+  createListeners(): void {
+    this.form.valueChanges.subscribe();
+    this.form.statusChanges.subscribe();
+    this.form.get('user').valueChanges.subscribe((value) => {
+      console.log('user changes: ', value);
+    });
   }
 
   get nameIsNotValid(): boolean {
@@ -111,7 +119,7 @@ export class ReactiveComponent implements OnInit {
         street: 'Calle',
         city: 'CDMX',
       },
-      hobbies: ['Valor1', 'Valor 2', 'Valor 3', 'Valor 4', 'Valor 5'],
+      hobbies: ['Valor1'],
     });
   }
 
